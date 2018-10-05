@@ -9,7 +9,7 @@ const ObjectId = require('mongodb').ObjectId;
 const encrypt = require('encryptor');
 const usrmgr = require('../lib/tchmgr');
 
-describe('querybyoidTest', function () {
+describe('statusTest', function () {
     before(async function () {
         try {
             let connect = await MongoClient.connect(URL, {useNewUrlParser: true});
@@ -28,7 +28,8 @@ describe('querybyoidTest', function () {
                 "title": "sth",
                 "reason": "sth",
                 "info": "sth",
-                "remark": "sth"
+                "remark": "sth",
+                "status": "pending"
               }
             ]);
         } catch (err) {
@@ -36,29 +37,22 @@ describe('querybyoidTest', function () {
         }
     });
 
-    it('querybyoidTest#1', async function () {
+    it('statusTest#1', async function () {
         let result, catch_err;
         try {
-          result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", "root");
+          result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", "root");
         } catch (err) {
           catch_err = err;
         }
         expect(result.message).to.be.equal("OK");
-        expect(result.data.week).to.be.equal(3);
-        expect(result.data.day).to.be.equal(1);
-        expect(result.data.time).to.be.equal(2);
-        expect(result.data.user).to.be.equal("root");
-        expect(result.data.title).to.be.equal("sth");
-        expect(result.data.reason).to.be.equal("sth");
-        expect(result.data.info).to.be.equal("sth");
-        expect(result.data.remark).to.be.equal("sth");
+        expect(result.status).to.be.equal("pending");
         expect(catch_err).to.be.an("undefined");
     });
 
-    it('querybyoidTest#2', async function () {
+    it('statusTest#2', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("3", "root");
+        result = await usrmgr.Status("3", "root");
       } catch (err) {
         catch_err = err;
       }
@@ -67,22 +61,10 @@ describe('querybyoidTest', function () {
       expect(catch_err.message).to.be.equal(message.invalid_field);
     });
 
-    it('querybyoidTest#3', async function () {
+    it('statusTest#3', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944");
-      } catch (err) {
-        catch_err = err;
-      }
-      expect(result).to.be.an("undefined");
-      expect(catch_err).to.be.an('error');
-      expect(catch_err.message).to.be.equal(message.no_login);
-    });
-
-    it('querybyoidTest#4', async function () {
-      let result, catch_err;
-      try {
-        result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9945", "tch");
+        result = await usrmgr.Status("5ba2fdf6de61470db3cb9945", "root");
       } catch (err) {
         catch_err = err;
       }
@@ -91,10 +73,22 @@ describe('querybyoidTest', function () {
       expect(catch_err.message).to.be.equal(message.oid_error);
     });
 
-    it('querybyoidTest#5', async function () {
+    it('statusTest#4', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("{$ne: 123}", "root");
+        result = await usrmgr.Status("5ba2fdf6de61470db3cb9944");
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.no_login);
+    });
+
+    it('statusTest#5', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.Status("{$ne: 123}", "root");
       } catch (err) {
         catch_err = err;
       }
@@ -103,10 +97,10 @@ describe('querybyoidTest', function () {
       expect(catch_err.message).to.be.equal(message.invalid_field);
     });
 
-    it('querybyoidTest#6', async function () {
+    it('statusTest#6', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId();
+        result = await usrmgr.Status();
       } catch (err) {
         catch_err = err;
       }
