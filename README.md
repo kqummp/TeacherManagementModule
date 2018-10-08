@@ -1,5 +1,6 @@
 # TeacherManagementModule
-
+[![Build Status](https://travis-ci.org/kqummp/TeacherManagementModule.svg?branch=master)](https://travis-ci.org/kqummp/TeacherManagementModule)
+[![Coverage Status](https://coveralls.io/repos/github/kqummp/TeacherManagementModule/badge.svg)](https://coveralls.io/github/kqummp/TeacherManagementModule)
 Teacher Management Module
 
 ## 功能实现
