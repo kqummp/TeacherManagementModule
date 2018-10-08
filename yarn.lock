@@ -363,7 +363,7 @@ fileset@^2.0.2:
 
 "filter@git+https://github.com/kqummp/filter.git":
   version "0.0.1"
-  resolved "git+https://github.com/kqummp/filter.git#766cd71febc8691e263647ee5181899391e68b1e"
+  resolved "git+https://github.com/kqummp/filter.git#cd76e6e310d29af5786952696b754b5f8d4d2511"
 
 forever-agent@~0.6.1:
   version "0.6.1"
