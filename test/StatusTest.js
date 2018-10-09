@@ -22,14 +22,15 @@ describe('statusTest', function () {
                 "_id": new ObjectId("5ba2fdf6de61470db3cb9944"),
                 "week": 3,
                 "day": 1,
-                "timestamp": 1537363911,
                 "time": 2,
-                "user": "root",
+                "timestamp": 1537363911,
+                "uid": 2017220301024,
                 "title": "sth",
                 "reason": "sth",
                 "info": "sth",
                 "remark": "sth",
-                "status": "pending"
+                "status": "pending",
+                "teacher": 1000000
               }
             ]);
         } catch (err) {
@@ -40,7 +41,7 @@ describe('statusTest', function () {
     it('statusTest#1', async function () {
         let result, catch_err;
         try {
-          result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", "root");
+          result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", 1000000);
         } catch (err) {
           catch_err = err;
         }
@@ -64,13 +65,13 @@ describe('statusTest', function () {
     it('statusTest#3', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Status("5ba2fdf6de61470db3cb9945", "root");
+        result = await usrmgr.Status("5ba2fdf6de61470db3cb9945", 1000000);
       } catch (err) {
         catch_err = err;
       }
       expect(result).to.be.an("undefined");
       expect(catch_err).to.be.an('error');
-      expect(catch_err.message).to.be.equal(message.oid_error);
+      expect(catch_err.message).to.be.equal(message.not_permitted);
     });
 
     it('statusTest#4', async function () {
@@ -107,6 +108,18 @@ describe('statusTest', function () {
       expect(result).to.be.an("undefined");
       expect(catch_err).to.be.an('error');
       expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('statusTest#7', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", 1000001);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.not_permitted);
     });
 
 });

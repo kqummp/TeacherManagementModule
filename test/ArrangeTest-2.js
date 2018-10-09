@@ -21,7 +21,7 @@ describe('arrangeTest-2', function () {
             await res_summary.insertOne({
                 "week": 3,
                 "day": 1,
-                "timestamp": 1537363911,
+                "teacher": 1000000,
                 "available": [3, 7],
                 "reserved": [1, 2, 4],
                 "unavailable": [5, 6, 8]
@@ -46,7 +46,7 @@ describe('arrangeTest-2', function () {
     it('arrangeTest-2#2', async function () {
       let result, catch_err;
       try {
-        result = await tchmgr.Arrange("root");
+        result = await tchmgr.Arrange(1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -59,7 +59,7 @@ describe('arrangeTest-2', function () {
       let result, catch_err;
       let data = {};
       try {
-        result = await tchmgr.Arrange("root", data);
+        result = await tchmgr.Arrange(1000000, data);
       } catch (err) {
         catch_err = err;
       }
@@ -72,7 +72,7 @@ describe('arrangeTest-2', function () {
       let result, catch_err;
       let data = {};
       try {
-        result = await tchmgr.Arrange("root", data);
+        result = await tchmgr.Arrange(1000000, data);
       } catch (err) {
         catch_err = err;
       }
@@ -89,7 +89,7 @@ describe('arrangeTest-2', function () {
         "available": [1, 2, 3]
       };
       try {
-        result = await tchmgr.Arrange("root", data);
+        result = await tchmgr.Arrange(1000000, data);
       } catch (err) {
         catch_err = err;
       }
@@ -106,7 +106,7 @@ describe('arrangeTest-2', function () {
         "available": "123"
       };
       try {
-        result = await tchmgr.Arrange("root", data);
+        result = await tchmgr.Arrange(1000000, data);
       } catch (err) {
         catch_err = err;
       }
@@ -123,7 +123,7 @@ describe('arrangeTest-2', function () {
         "available": [1, 2, 3]
       };
       try {
-        result = await tchmgr.Arrange("root", data);
+        result = await tchmgr.Arrange(1000000, data);
       } catch (err) {
         catch_err = err;
       }
@@ -140,7 +140,7 @@ describe('arrangeTest-2', function () {
         "available": [1, 2, 3, 3, 4, 5, 6, 7, 8, 9, 10]
       };
       try {
-        result = await tchmgr.Arrange("root", data);
+        result = await tchmgr.Arrange(1000000, data);
       } catch (err) {
         catch_err = err;
       }
@@ -157,7 +157,7 @@ describe('arrangeTest-2', function () {
         "available": [1, 2, 10]
       };
       try {
-        result = await tchmgr.Arrange("root", data);
+        result = await tchmgr.Arrange(1000000, data);
       } catch (err) {
         catch_err = err;
       }
@@ -174,7 +174,7 @@ describe('arrangeTest-2', function () {
         "available": [1, 2, 10, 0]
       };
       try {
-        result = await tchmgr.Arrange("root", data);
+        result = await tchmgr.Arrange(1000000, data);
       } catch (err) {
         catch_err = err;
       }
@@ -191,7 +191,7 @@ describe('arrangeTest-2', function () {
         "available": [1, 3, 5, 7]
       }
       try {
-        result = await tchmgr.Arrange("root", data);
+        result = await tchmgr.Arrange(1000000, data);
       } catch (err) {
         catch_err = err;
       }
@@ -208,7 +208,7 @@ describe('arrangeTest-2', function () {
         "available": [3, 5, 7]
       }
       try {
-        result = await tchmgr.Arrange("root", data);
+        result = await tchmgr.Arrange(1000000, data);
       } catch (err) {
         catch_err = err;
       }
@@ -227,6 +227,7 @@ describe('arrangeTest-2', function () {
       expect(summary_result[0].available).to.be.eql([3, 5, 7]);
       expect(summary_result[0].unavailable).to.be.eql([6, 8]);
       expect(summary_result[0].reserved).to.be.eql([1, 2, 4]);
+      expect(summary_result[0].teacher).to.be.equal(1000000);
     });
 
 });

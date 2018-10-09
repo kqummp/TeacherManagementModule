@@ -23,7 +23,7 @@ describe('acceptTest', function () {
             await res_summary.insertOne({
                 "week": 3,
                 "day": 1,
-                "timestamp": 1537363911,
+                "teacher": 1000000,
                 "available": [3, 7],
                 "reserved": [1, 2, 4],
                 "unavailable": [5, 6, 8]
@@ -32,23 +32,25 @@ describe('acceptTest', function () {
               "week": 3,
               "day": 1,
               "time": 1,
-              "user": "root",
+              "uid": 2017220301024,
               "title": "asd",
               "info": "asd",
               "reason": "asd",
               "remark": "asdasd",
-              "status": "pending"
+              "status": "pending",
+              "teacher": 1000000
             });
             let tmp_result_2 = await res_detail.insertOne({
               "week": 3,
               "day": 1,
               "time": 2,
-              "user": "root",
+              "uid": 2017220301024,
               "title": "asd",
               "info": "asd",
               "reason": "asd",
               "remark": "asdasd",
-              "status": "rejected"
+              "status": "rejected",
+              "teacher": 1000000
             });
             ins_id = (tmp_result.insertedId).toString();
             ins_id_2 = (tmp_result_2.insertedId).toString();
@@ -61,20 +63,20 @@ describe('acceptTest', function () {
       let result, catch_err;
       let oid = "5bb38ef916f47987b7fe0000";
       try {
-        result = await tchmgr.Accept(oid, "root");
+        result = await tchmgr.Accept(oid, 1000000);
       } catch (err) {
         catch_err = err;
       }
       expect(result).to.be.an("undefined");
       expect(catch_err).to.be.an("Error");
-      expect(catch_err.message).to.be.equal(message.oid_error);
+      expect(catch_err.message).to.be.equal(message.not_permitted);
     });
 
     it('acceptTest#2', async function () {
       let result, catch_err;
       let oid = ins_id;
       try {
-        result = await tchmgr.Accept(oid, "root");
+        result = await tchmgr.Accept(oid, 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -98,7 +100,7 @@ describe('acceptTest', function () {
       let result, catch_err;
       let oid = ins_id;
       try {
-        result = await tchmgr.Accept(oid, "root");
+        result = await tchmgr.Accept(oid, 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -111,7 +113,7 @@ describe('acceptTest', function () {
       let result, catch_err;
       let oid = ins_id_2;
       try {
-        result = await tchmgr.Accept(oid, "root");
+        result = await tchmgr.Accept(oid, 1000000);
       } catch (err) {
         catch_err = err;
       }

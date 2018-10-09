@@ -21,7 +21,7 @@ describe('queryTest', function () {
               {
                 "week": 3,
                 "day": 1,
-                "timestamp": 1537363911,
+                "teacher": 1000000,
                 "available": [1, 3, 7],
                 "reserved": [2, 4],
                 "unavailable": [5, 6, 8]
@@ -29,7 +29,15 @@ describe('queryTest', function () {
               {
                 "week": 3,
                 "day": 2,
-                "timestamp": 1537363912,
+                "teacher": 1000000,
+                "available": [1, 3],
+                "reserved": [2, 4, 7],
+                "unavailable": [5, 6, 8]
+              },
+              {
+                "week": 3,
+                "day": 2,
+                "teacher": 1000001,
                 "available": [1, 3],
                 "reserved": [2, 4, 7],
                 "unavailable": [5, 6, 8]
@@ -37,7 +45,7 @@ describe('queryTest', function () {
               {
                 "week": 4,
                 "day": 1,
-                "timestamp": 1537363913,
+                "teacher": 1000001,
                 "available": [1, 3, 7],
                 "reserved": [2, 4],
                 "unavailable": [5, 6, 8]
@@ -51,7 +59,7 @@ describe('queryTest', function () {
     it('queryTest#1', async function () {
         let result, catch_err;
         try {
-          result = await usrmgr.Query(3);
+          result = await usrmgr.Query(3, 1000000);
         } catch (err) {
           catch_err = err;
         }
@@ -67,13 +75,14 @@ describe('queryTest', function () {
         expect(result.data[1].available.length).to.be.equal(2);
         expect(result.data[1].reserved.length).to.be.equal(3);
         expect(result.data[1].unavailable.length).to.be.equal(3);
+        expect(result.data[1].teacher).to.be.equal(1000000);
         expect(catch_err).to.be.an("undefined");
     });
 
     it('queryTest#2', async function () {
         let result, catch_err;
         try {
-          result = await usrmgr.Query(4);
+          result = await usrmgr.Query(4, 1000001);
         } catch (err) {
           catch_err = err;
         }
@@ -90,7 +99,7 @@ describe('queryTest', function () {
     it('queryTest#3', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Query("3");
+        result = await usrmgr.Query("3", 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -102,7 +111,7 @@ describe('queryTest', function () {
     it('queryTest#4', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Query("{$ne: 3}");
+        result = await usrmgr.Query("{$ne: 3}", 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -126,7 +135,31 @@ describe('queryTest', function () {
     it('queryTest#5', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Query(5);
+        result = await usrmgr.Query(5, 1000000);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('queryTest#6', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.Query(3);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.no_login);
+    });
+
+    it('queryTest#7', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.Query(3, "1000000");
       } catch (err) {
         catch_err = err;
       }
