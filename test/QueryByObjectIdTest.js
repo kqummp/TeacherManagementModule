@@ -41,7 +41,7 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#1', async function () {
         let result, catch_err;
         try {
-          result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", 1000000);
+          result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", 1000000, 1000000);
         } catch (err) {
           catch_err = err;
         }
@@ -61,7 +61,7 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#2', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("3", "root");
+        result = await usrmgr.QueryByReserveId("3", "root", 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -85,19 +85,7 @@ describe('querybyoidTest', function () {
     it('querybyoidTest#4', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9945", 1000001);
-      } catch (err) {
-        catch_err = err;
-      }
-      expect(result).to.be.an("undefined");
-      expect(catch_err).to.be.an('error');
-      expect(catch_err.message).to.be.equal(message.not_permitted);
-    });
-
-    it('querybyoidTest#5', async function () {
-      let result, catch_err;
-      try {
-        result = await usrmgr.QueryByReserveId("{$ne: 123}", 1000000);
+        result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", 1000000, "1000000");
       } catch (err) {
         catch_err = err;
       }
@@ -106,7 +94,43 @@ describe('querybyoidTest', function () {
       expect(catch_err.message).to.be.equal(message.invalid_field);
     });
 
+    it('querybyoidTest#5', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9944", 1000000, 1000001);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.not_permitted);
+    });
+
     it('querybyoidTest#6', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.QueryByReserveId("5ba2fdf6de61470db3cb9945", 1000001, 1000001);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.not_permitted);
+    });
+
+    it('querybyoidTest#7', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.QueryByReserveId("{$ne: 123}", 1000000, 1000000);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('querybyoidTest#8', async function () {
       let result, catch_err;
       try {
         result = await usrmgr.QueryByReserveId();

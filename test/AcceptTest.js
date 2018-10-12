@@ -63,7 +63,7 @@ describe('acceptTest', function () {
       let result, catch_err;
       let oid = "5bb38ef916f47987b7fe0000";
       try {
-        result = await tchmgr.Accept(oid, 1000000);
+        result = await tchmgr.Accept(oid, 1000000, 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -74,9 +74,35 @@ describe('acceptTest', function () {
 
     it('acceptTest#2', async function () {
       let result, catch_err;
+      let oid = "5bb38ef916f47987b7fe0000";
+      try {
+        result = await tchmgr.Accept(oid, 1000000, 1000001);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.not_permitted);
+    });
+
+    it('acceptTest#3', async function () {
+      let result, catch_err;
+      let oid = "5bb38ef916f47987b7fe0000";
+      try {
+        result = await tchmgr.Accept(oid, 1000000, "1000000");
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('acceptTest#4', async function () {
+      let result, catch_err;
       let oid = ins_id;
       try {
-        result = await tchmgr.Accept(oid, 1000000);
+        result = await tchmgr.Accept(oid, 1000000, 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -96,11 +122,11 @@ describe('acceptTest', function () {
 
     });
 
-    it('acceptTest#3', async function () {
+    it('acceptTest#5', async function () {
       let result, catch_err;
       let oid = ins_id;
       try {
-        result = await tchmgr.Accept(oid, 1000000);
+        result = await tchmgr.Accept(oid, 1000000, 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -109,11 +135,11 @@ describe('acceptTest', function () {
       expect(catch_err.message).to.be.equal(message.accepted);
     });
 
-    it('acceptTest#4', async function () {
+    it('acceptTest#6', async function () {
       let result, catch_err;
       let oid = ins_id_2;
       try {
-        result = await tchmgr.Accept(oid, 1000000);
+        result = await tchmgr.Accept(oid, 1000000, 1000000);
       } catch (err) {
         catch_err = err;
       }

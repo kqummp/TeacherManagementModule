@@ -41,7 +41,7 @@ describe('statusTest', function () {
     it('statusTest#1', async function () {
         let result, catch_err;
         try {
-          result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", 1000000);
+          result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", 1000000, 1000000);
         } catch (err) {
           catch_err = err;
         }
@@ -53,7 +53,7 @@ describe('statusTest', function () {
     it('statusTest#2', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Status("3", "root");
+        result = await usrmgr.Status("3", "root", 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -65,7 +65,7 @@ describe('statusTest', function () {
     it('statusTest#3', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Status("5ba2fdf6de61470db3cb9945", 1000000);
+        result = await usrmgr.Status("5ba2fdf6de61470db3cb9945", 1000000, 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -89,7 +89,7 @@ describe('statusTest', function () {
     it('statusTest#5', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Status("{$ne: 123}", "root");
+        result = await usrmgr.Status("{$ne: 123}", "root", 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -113,13 +113,37 @@ describe('statusTest', function () {
     it('statusTest#7', async function () {
       let result, catch_err;
       try {
-        result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", 1000001);
+        result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", 1000001, 1000000);
       } catch (err) {
         catch_err = err;
       }
       expect(result).to.be.an("undefined");
       expect(catch_err).to.be.an('error');
       expect(catch_err.message).to.be.equal(message.not_permitted);
+    });
+
+    it('statusTest#8', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", 1000000, 1000001);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.not_permitted);
+    });
+
+    it('statusTest#9', async function () {
+      let result, catch_err;
+      try {
+        result = await usrmgr.Status("5ba2fdf6de61470db3cb9944", 1000000, "1000000");
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an('error');
+      expect(catch_err.message).to.be.equal(message.invalid_field);
     });
 
 });
