@@ -63,7 +63,7 @@ describe('rejectTest', function () {
       let result, catch_err;
       let oid = "5bb38ef916f47987b7fe0000";
       try {
-        result = await tchmgr.Reject(oid, 1000000, 1000000);
+        result = await tchmgr.Reject(oid, "asd", 1000000, 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -76,7 +76,7 @@ describe('rejectTest', function () {
       let result, catch_err;
       let oid = "5bb38ef916f47987b7fe0000";
       try {
-        result = await tchmgr.Reject(oid, 1000000, 1000001);
+        result = await tchmgr.Reject(oid, "asd", 1000000, 1000001);
       } catch (err) {
         catch_err = err;
       }
@@ -89,7 +89,7 @@ describe('rejectTest', function () {
       let result, catch_err;
       let oid = "5bb38ef916f47987b7fe0000";
       try {
-        result = await tchmgr.Reject(oid, 1000000, "1000000");
+        result = await tchmgr.Reject(oid, "asd", 1000000, "1000000");
       } catch (err) {
         catch_err = err;
       }
@@ -100,9 +100,35 @@ describe('rejectTest', function () {
 
     it('rejectTest#4', async function () {
       let result, catch_err;
+      let oid = "5bb38ef916f47987b7fe0000";
+      try {
+        result = await tchmgr.Reject(oid, "", 1000000, 1000000);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('rejectTest#5', async function () {
+      let result, catch_err;
+      let oid = "5bb38ef916f47987b7fe0000";
+      try {
+        result = await tchmgr.Reject(oid, "{$ne: 1}", 1000000, 1000000);
+      } catch (err) {
+        catch_err = err;
+      }
+      expect(result).to.be.an("undefined");
+      expect(catch_err).to.be.an("Error");
+      expect(catch_err.message).to.be.equal(message.invalid_field);
+    });
+
+    it('rejectTest#6', async function () {
+      let result, catch_err;
       let oid = ins_id;
       try {
-        result = await tchmgr.Reject(oid, 1000000, 1000000);
+        result = await tchmgr.Reject(oid, "asd", 1000000, 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -119,6 +145,7 @@ describe('rejectTest', function () {
 
       expect(detail_result.length).to.be.equal(1);
       expect(detail_result[0].status).to.be.equal("rejected");
+      expect(detail_result[0].reject_reason).to.be.equal("asd");
 
       let summary_result;
       try {
@@ -132,11 +159,11 @@ describe('rejectTest', function () {
       expect(summary_result[0].reserved).to.not.include(1);
     });
 
-    it('rejectTest#5', async function () {
+    it('rejectTest#7', async function () {
       let result, catch_err;
       let oid = ins_id;
       try {
-        result = await tchmgr.Reject(oid, 1000000, 1000000);
+        result = await tchmgr.Reject(oid, "asd", 1000000, 1000000);
       } catch (err) {
         catch_err = err;
       }
@@ -145,11 +172,11 @@ describe('rejectTest', function () {
       expect(catch_err.message).to.be.equal(message.rejected);
     });
 
-    it('rejectTest#6', async function () {
+    it('rejectTest#8', async function () {
       let result, catch_err;
       let oid = ins_id_2;
       try {
-        result = await tchmgr.Reject(oid, 1000000, 1000000);
+        result = await tchmgr.Reject(oid, "asd", 1000000, 1000000);
       } catch (err) {
         catch_err = err;
       }
